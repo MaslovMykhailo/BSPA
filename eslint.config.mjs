@@ -7,6 +7,7 @@ import pluginHtml from 'eslint-plugin-html'
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   { languageOptions: { globals: globals.browser } },
+  { languageOptions: { globals: globals.node } },
   pluginJs.configs.recommended,
   prettierRecommended,
   pluginCss.configs['flat/recommended'],
