@@ -1,0 +1,24 @@
+{
+  "name": "BSPA",
+  "version": "1.0.0",
+  "description": "Building Single Page Applications Course Labs",
+  "main": "index.js",
+  "author": "Mykhailo Maslov <maslov.mikhail2000@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint .",
+    "postinstall": "husky"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.20.0",
+    "eslint": "^9.20.1",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-css": "^0.11.0",
+    "eslint-plugin-html": "^8.1.2",
+    "eslint-plugin-prettier": "^5.2.3",
+    "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.0"
+  }
+}
