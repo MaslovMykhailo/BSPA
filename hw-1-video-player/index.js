@@ -1,1 +1,1 @@
-console.log('Video Player')
+import './video-player/index.js'
