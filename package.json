@@ -2,7 +2,8 @@
   "name": "bspa",
   "private": true,
   "workspaces": [
-    "hw-1-video-player"
+    "hw-1-video-player",
+    "hw-2-snake"
   ],
   "version": "1.0.0",
   "description": "Building Single Page Applications Course Labs",

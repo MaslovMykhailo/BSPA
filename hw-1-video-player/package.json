@@ -1,8 +1,7 @@
 {
   "name": "bspa-hw-1",
   "version": "1.0.0",
-  "description": "Building Single Page Applications Course Labs",
-  "main": "index.js",
+  "description": "Building Single Page Applications Course Labs: HW 1",
   "author": "Mykhailo Maslov <maslov.mikhail2000@gmail.com>",
   "license": "MIT",
   "scripts": {

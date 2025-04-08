@@ -1,0 +1,21 @@
+{
+  "name": "bspa-hw-2",
+  "version": "1.0.0",
+  "description": "Building Single Page Applications Course Labs: HW 2",
+  "author": "Mykhailo Maslov <maslov.mikhail2000@gmail.com>",
+  "license": "MIT",
+  "source": "script.ts",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
+    "lint": "echo 'no linting'"
+  },
+  "dependencies": {
+    "lit": "^3.2.1",
+    "ts-lit-plugin": "^2.0.2"
+  },
+  "devDependencies": {
+    "parcel": "^2.14.4",
+    "typescript": "^5.8.3"
+  }
+}

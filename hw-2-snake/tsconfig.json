@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "lib": ["ESNEXT", "DOM"],
+    "outDir": "./.tmp/",
+    "module": "esnext",
+    "target": "ESNext",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "noImplicitOverride": true,
+    "useDefineForClassFields": false,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "strict": true,
+
+    "baseUrl": "./",
+    "plugins": [
+      {
+        "name": "ts-lit-plugin",
+        "strict": true,
+        "rules": {
+          "no-unknown-tag-name": "error",
+          "no-missing-import": "error",
+          "no-unknown-attribute": "error",
+          "no-unknown-property": "error"
+        }
+      }
+    ]
+  },
+  "include": ["script.ts"]
+}
