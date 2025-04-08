@@ -1,0 +1,15 @@
+{
+  "name": "bspa-hw-1",
+  "version": "1.0.0",
+  "description": "Building Single Page Applications Course Labs",
+  "main": "index.js",
+  "author": "Mykhailo Maslov <maslov.mikhail2000@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "yarn run -T eslint .",
+    "start": "node server.mjs"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

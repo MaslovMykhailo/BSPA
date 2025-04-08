@@ -1,13 +1,16 @@
 {
-  "name": "BSPA",
+  "name": "bspa",
+  "private": true,
+  "workspaces": [
+    "hw-1-video-player"
+  ],
   "version": "1.0.0",
   "description": "Building Single Page Applications Course Labs",
   "main": "index.js",
   "author": "Mykhailo Maslov <maslov.mikhail2000@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint .",
-    "serve": "node server.mjs",
+    "lint": "yarn workspaces run lint",
     "postinstall": "husky"
   },
   "devDependencies": {
@@ -20,7 +23,6 @@
     "globals": "^15.14.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
-    "live-server": "^1.2.2",
     "prettier": "^3.5.0"
   }
 }
