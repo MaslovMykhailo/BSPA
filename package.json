@@ -3,7 +3,8 @@
   "private": true,
   "workspaces": [
     "hw-1-video-player",
-    "hw-2-snake"
+    "hw-2-snake",
+    "project"
   ],
   "version": "1.0.0",
   "description": "Building Single Page Applications Course Labs",
