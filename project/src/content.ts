@@ -1,8 +1,22 @@
 import { formatDate } from '@/utils/date'
 
 export const Content = {
-  importTransactionsInput: {
-    placeholder: () => 'Імпорт CSV',
+  sidebar: {
+    title: () => 'Записи транзакцій',
+    group: {
+      imported: {
+        title: () => 'Імпортовані транзакції',
+      },
+      generated: {
+        title: () => 'Згенеровані транзакції',
+      },
+    },
+  },
+  generateTransactionsButton: {
+    text: () => 'Згенерувати транзакції',
+  },
+  importTransactionsButton: {
+    text: () => 'Імпорт CSV',
   },
   importTransactionsDialog: {
     importSuccess: () => 'Файл для імпорту завантажено',
