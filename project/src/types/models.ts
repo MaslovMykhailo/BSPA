@@ -14,6 +14,15 @@ export type Statement = {
   transactions: Transaction[]
 }
 
+export type SerializedStatement = {
+  id: EntityId
+  fromDate: string
+  toDate: string
+  addedDate: string
+  type: StatementType
+  transactions: SerializedTransaction[]
+}
+
 export enum TransactionOperation {
   income = 'income',
   expense = 'expense',
@@ -21,6 +30,14 @@ export enum TransactionOperation {
 
 export type Transaction = {
   date: Date
+  details: string
+  mcc: number
+  amount: number
+  operation: TransactionOperation
+}
+
+export type SerializedTransaction = {
+  date: string
   details: string
   mcc: number
   amount: number

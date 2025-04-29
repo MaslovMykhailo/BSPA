@@ -174,7 +174,7 @@ export function ImportStatementDialog() {
           onChange={onInputChange}
           className="hidden"
         />
-        <Button className="text-sm py-1 px-2" onClick={() => inputRef.current?.click()}>
+        <Button className="text-sm py-1 px-2 w-full" onClick={() => inputRef.current?.click()}>
           <FileUpIcon />
           {Content.importTransactionsButton.text()}
         </Button>

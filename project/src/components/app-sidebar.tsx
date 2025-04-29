@@ -1,10 +1,24 @@
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarHeader } from '@/components/ui/sidebar'
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarSeparator,
+} from '@/components/ui/sidebar'
 import { Content } from '@/content'
+import { useGeneratedStatements, useImportedStatements } from '@/store'
 
 import { GenerateStatementButton } from './generate-statement-button'
 import { ImportStatementDialog } from './import-statement-dialog'
+import { StatementSidebarItem } from './statement-sidebar-item'
 
 export function AppSidebar() {
+  const importedStatements = useImportedStatements()
+  const generatedStatements = useGeneratedStatements()
+
   return (
     <Sidebar collapsible="none">
       <SidebarHeader>
@@ -13,21 +27,30 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>{Content.sidebar.group.imported.title()}</SidebarGroupLabel>
-          <ButtonWrapper>
-            <ImportStatementDialog />
-          </ButtonWrapper>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {importedStatements.map((statement, index) => (
+                <StatementSidebarItem key={statement.id} statement={statement} index={index} />
+              ))}
+              <ImportStatementDialog />
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarSeparator />
         </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupLabel>{Content.sidebar.group.generated.title()}</SidebarGroupLabel>
-          <ButtonWrapper>
-            <GenerateStatementButton />
-          </ButtonWrapper>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {generatedStatements.map((statement, index) => (
+                <StatementSidebarItem key={statement.id} statement={statement} index={index} />
+              ))}
+              <GenerateStatementButton />
+            </SidebarMenu>
+          </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
   )
-}
-
-function ButtonWrapper({ children }: { children: React.ReactNode }) {
-  return <div className="flex px-2">{children}</div>
 }

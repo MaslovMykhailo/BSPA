@@ -11,6 +11,10 @@ export const Content = {
         title: () => 'Згенеровані транзакції',
       },
     },
+    statementItem: {
+      title: (index: number) => `Транзакції #${index}`,
+      subtitle: (fromDate: Date, toDate: Date) => `З ${formatDate(fromDate)} по ${formatDate(toDate)}`,
+    },
   },
   generateTransactionsButton: {
     text: () => 'Згенерувати транзакції',
