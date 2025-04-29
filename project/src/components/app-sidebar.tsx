@@ -20,7 +20,7 @@ export function AppSidebar() {
   const generatedStatements = useGeneratedStatements()
 
   return (
-    <Sidebar collapsible="none">
+    <Sidebar collapsible="offcanvas">
       <SidebarHeader>
         <h3 className="text-2xl font-bold text-center">{Content.sidebar.title()}</h3>
       </SidebarHeader>

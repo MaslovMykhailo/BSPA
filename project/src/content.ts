@@ -1,6 +1,7 @@
 import { formatDate } from '@/utils/date'
 
 export const Content = {
+  title: () => 'Візуалізатор транзакцій',
   sidebar: {
     title: () => 'Записи транзакцій',
     group: {
