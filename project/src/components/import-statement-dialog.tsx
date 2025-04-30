@@ -7,8 +7,9 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Content } from '@/content'
-import { useAppStore } from '@/store'
-import { Transaction, TransactionOperation } from '@/types/models'
+import { useTransactionsStore } from '@/store/statements'
+import { Transaction } from '@/types/transaction'
+import { TransactionOperation } from '@/types/transaction'
 import { formatDate } from '@/utils/date'
 import { parseTransactionsCSV } from '@/utils/transacations-csv'
 import { getTransactionCategory, getTransactionsFromDate, getTransactionsToDate } from '@/utils/transactions'
@@ -22,7 +23,7 @@ export function ImportStatementDialog() {
   const [error, setError] = useState(false)
   const [transactions, setTransactions] = useState<Transaction[]>()
 
-  const { importStatement } = useAppStore()
+  const { importStatement } = useTransactionsStore()
 
   const onImportError = () => {
     setOpen(true)

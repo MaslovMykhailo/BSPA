@@ -1,6 +1,8 @@
-import { EntityId, SerializedStatement, Transaction } from '@/types/models'
+import { EntityId } from '@/types/entity'
+import { SerializedStatement } from '@/types/statement'
+import { Transaction } from '@/types/transaction'
 
-export interface AppStore {
+export interface StatementsStore {
   activeStatementId: EntityId | undefined
   statements: Record<EntityId, SerializedStatement>
   setActiveStatement: (id: EntityId) => void

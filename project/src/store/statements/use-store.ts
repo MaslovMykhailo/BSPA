@@ -1,13 +1,14 @@
-import { create, StoreApi, UseBoundStore } from 'zustand'
+import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 
-import { StatementType } from '@/types/models'
+import { StatementType } from '@/types/statement'
 import { serializeStatement } from '@/utils/statements'
 import { getTransactionsFromDate, getTransactionsToDate } from '@/utils/transactions'
 
-import { AppStore } from './app-store'
+import { createSelectors } from '../utils'
+import { StatementsStore } from './store'
 
-export const useAppStoreBase = create<AppStore>()(
+const useTransactionsStoreBase = create<StatementsStore>()(
   devtools(
     persist(
       (set) => ({
@@ -48,24 +49,10 @@ export const useAppStoreBase = create<AppStore>()(
           }),
       }),
       {
-        name: 'transactionsVisualizeStore',
+        name: 'statements-store',
       },
     ),
   ),
 )
 
-type WithSelectors<S> = S extends { getState: () => infer T } ? S & { use: { [K in keyof T]: () => T[K] } } : never
-
-const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(_store: S) => {
-  const store = _store as WithSelectors<typeof _store>
-  store.use = {} as WithSelectors<S>
-  for (const k of Object.keys(store.getState())) {
-    // @ts-expect-error ts is not smart enough to know that k is a key of store.getState()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    store.use[k as any] = () => store((s) => s[k as keyof typeof s])
-  }
-
-  return store
-}
-
-export const useAppStore = createSelectors(useAppStoreBase)
+export const useTransactionsStore = createSelectors(useTransactionsStoreBase)

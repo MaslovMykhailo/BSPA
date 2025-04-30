@@ -9,7 +9,7 @@ import {
   SidebarSeparator,
 } from '@/components/ui/sidebar'
 import { Content } from '@/content'
-import { useGeneratedStatements, useImportedStatements } from '@/store'
+import { useGeneratedStatements, useImportedStatements } from '@/store/statements'
 
 import { GenerateStatementButton } from './generate-statement-button'
 import { ImportStatementDialog } from './import-statement-dialog'

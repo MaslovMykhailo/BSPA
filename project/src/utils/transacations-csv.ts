@@ -1,6 +1,7 @@
 import Papa, { ParseResult } from 'papaparse'
 
-import { Transaction, TransactionOperation } from '@/types/models'
+import { Transaction } from '@/types/transaction'
+import { TransactionOperation } from '@/types/transaction'
 
 import { parseDate } from './date'
 

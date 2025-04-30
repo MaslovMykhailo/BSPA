@@ -1,4 +1,5 @@
-import { SerializedStatement, Statement } from '@/types/models'
+import { SerializedStatement } from '@/types/statement'
+import { Statement } from '@/types/statement'
 
 import { fromISOString, toISOString } from './date'
 import { deserializeTransaction, serializeTransaction } from './transactions'

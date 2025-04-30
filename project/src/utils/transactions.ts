@@ -1,5 +1,6 @@
 import { Content } from '@/content'
-import { SerializedTransaction, Transaction } from '@/types/models'
+import { SerializedTransaction } from '@/types/transaction'
+import { Transaction } from '@/types/transaction'
 
 import { fromISOString, toISOString } from './date'
 import MCC_METADATA from './mcc.json'
