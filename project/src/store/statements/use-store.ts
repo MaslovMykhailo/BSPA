@@ -3,7 +3,7 @@ import { devtools, persist } from 'zustand/middleware'
 
 import { StatementType } from '@/types/statement'
 import { serializeStatement } from '@/utils/statements'
-import { getTransactionsFromDate, getTransactionsToDate } from '@/utils/transactions'
+import { generateTransactions, getTransactionsFromDate, getTransactionsToDate } from '@/utils/transactions'
 
 import { createSelectors } from '../utils'
 import { StatementsStore } from './store'
@@ -26,8 +26,8 @@ const useStatementsStoreBase = create<StatementsStore>()(
                 type: StatementType.imported,
                 transactions,
                 addedDate: new Date(),
-                fromDate: new Date(getTransactionsFromDate(transactions)),
-                toDate: new Date(getTransactionsToDate(transactions)),
+                fromDate: getTransactionsFromDate(transactions),
+                toDate: getTransactionsToDate(transactions),
               }),
             },
           }))
@@ -35,9 +35,23 @@ const useStatementsStoreBase = create<StatementsStore>()(
         },
         generateStatement: () => {
           const id = crypto.randomUUID()
+          const transactions = generateTransactions({
+            categoriesCount: { from: 5, to: 15 },
+            transactionsCount: { from: 50, to: 250 },
+            transactionsPerCategory: { from: 2, to: 20 },
+          })
+
           set((state) => ({
             statements: {
               ...state.statements,
+              [id]: serializeStatement({
+                id,
+                type: StatementType.generated,
+                transactions,
+                addedDate: new Date(),
+                fromDate: getTransactionsFromDate(transactions),
+                toDate: getTransactionsToDate(transactions),
+              }),
             },
           }))
           return id
