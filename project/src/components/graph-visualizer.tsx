@@ -12,8 +12,11 @@ import { getNodesMinMaxVal, getNodeVal } from '@/utils/graph'
 import { normalizeProportional } from '@/utils/normalize'
 import { randomNumber } from '@/utils/random'
 
+import { GraphNodePreview } from './graph-node-preview'
+
 export function GraphVisualizer() {
   const hasActiveStatement = useHasActiveStatement()
+
   return (
     <div className="w-full h-[100dvh]">
       <Canvas flat camera={{ position: [0, 0, 500], far: 10000 }}>
@@ -25,6 +28,7 @@ export function GraphVisualizer() {
 
         {hasActiveStatement ? <ForceGraphVisualizer /> : <ForceGraphVisualizerPlaceholder />}
       </Canvas>
+      {hasActiveStatement && <GraphNodePreview />}
     </div>
   )
 }
@@ -33,7 +37,7 @@ function ForceGraphVisualizer() {
   const fgRef = useRef<GraphMethods<GraphNode>>(undefined)
   useFrame(() => fgRef.current?.tickFrame())
 
-  const { graph, graphData } = useGraph()
+  const { graph, graphData, onNodeHover } = useGraph()
 
   useEffect(() => {
     fgRef.current?.d3Force('link')?.distance(createLinkDistanceAccessor(graph))
@@ -50,10 +54,7 @@ function ForceGraphVisualizer() {
       nodeColor={nodeColorAccessor}
       nodeOpacity={0.9}
       nodeResolution={28}
-      // onNodeHover={useCallback((...args: any[]) => console.log('node hover', ...args), [])}
-      // onLinkHover={useCallback((...args: any[]) => console.log('link hover', ...args), [])}
-      // onNodeClick={useCallback((...args: any[]) => console.log('node click', ...args), [])}
-      // onLinkClick={useCallback((...args: any[]) => console.log('link click', ...args), [])}
+      onNodeHover={onNodeHover}
     />
   )
 }

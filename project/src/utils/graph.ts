@@ -10,14 +10,18 @@ export const emptyGraph = (): Graph => ({
 
 const createStatementNode = (
   id: EntityId,
-  operation: TransactionOperation,
+  statement: Statement,
   transactions: Transaction[],
+  operation: TransactionOperation,
 ): GraphNode => ({
   id,
   type: 'statement',
   statement: {
     value: transactions.reduce((total, transaction) => total + transaction.amount, 0),
     operation,
+    fromDate: statement.fromDate,
+    toDate: statement.toDate,
+    transactionsCount: transactions.length,
   },
 })
 
@@ -27,6 +31,7 @@ const createTransactionCategoryNode = (id: EntityId, mcc: number, transactions: 
   category: {
     mcc,
     value: transactions.reduce((total, transaction) => total + transaction.amount, 0),
+    transactionsCount: transactions.length,
   },
 })
 
@@ -36,6 +41,8 @@ const createTransactionNode = (id: EntityId, transaction: Transaction): GraphNod
   transaction: {
     value: transaction.amount,
     mcc: transaction.mcc,
+    date: transaction.date,
+    details: transaction.details,
   },
 })
 
@@ -65,7 +72,7 @@ export const statementToGraphs = (statement: Statement) => {
       }
 
       const statementId = crypto.randomUUID()
-      addNode(statementId, createStatementNode(statementId, operation as TransactionOperation, transactions))
+      addNode(statementId, createStatementNode(statementId, statement, transactions, operation as TransactionOperation))
 
       const categorizedTransactions = transactions.reduce<Record<string, Transaction[]>>((categories, transaction) => {
         if (!categories[transaction.mcc]) {

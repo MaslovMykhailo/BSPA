@@ -14,8 +14,13 @@ export const useGraphStoreBase = create<GraphStore>()(
       [TransactionOperation.expense]: emptyGraph(),
     },
     setGraphs: (graphs) => set(() => ({ graphs })),
+
     activeGraph: TransactionOperation.expense,
     setActiveGraph: (operation) => set(() => ({ activeGraph: operation })),
+
+    previewNodeId: undefined,
+    setPreviewNodeId: (id) => set(() => ({ previewNodeId: id })),
+    resetPreviewNodeId: () => set(() => ({ previewNodeId: undefined })),
   })),
 )
 

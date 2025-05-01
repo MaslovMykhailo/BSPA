@@ -26,3 +26,9 @@ export const useGraphData = () => {
     [graph],
   )
 }
+
+export const usePreviewNode = () => {
+  const graph = useActiveGraph()
+  const previewNodeId = useGraphStore.use.previewNodeId()
+  return useMemo(() => (previewNodeId ? graph.nodes[previewNodeId] : undefined), [previewNodeId, graph])
+}

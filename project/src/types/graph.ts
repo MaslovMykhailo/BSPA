@@ -10,6 +10,9 @@ export interface StatementNode extends BaseGraphNode {
   statement: {
     value: number
     operation: TransactionOperation
+    fromDate: Date
+    toDate: Date
+    transactionsCount: number
   }
 }
 
@@ -18,6 +21,7 @@ export interface TransactionCategoryNode extends BaseGraphNode {
   category: {
     mcc: number
     value: number
+    transactionsCount: number
   }
 }
 
@@ -26,6 +30,8 @@ export interface TransactionNode extends BaseGraphNode {
   transaction: {
     value: number
     mcc: number
+    date: Date
+    details: string
   }
 }
 

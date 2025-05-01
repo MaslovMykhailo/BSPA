@@ -1,5 +1,7 @@
 import { formatDate } from '@/utils/date'
 
+import { getCategoryByMcc } from './utils/mcc'
+
 export const Content = {
   title: () => 'Візуалізатор транзакцій',
   sidebar: {
@@ -73,6 +75,34 @@ export const Content = {
           mcc: '3421',
         },
       ],
+    },
+  },
+  preview: {
+    statement: {
+      income: {
+        title: () => 'Надходження',
+        description: (fromDate: Date, toDate: Date) => `З ${formatDate(fromDate)} по ${formatDate(toDate)}`,
+        transactionsCount: (count: number) => `Кількість транзакцій: ${count}`,
+        totalAmount: (amount: number) => `Загальна сума: ${amount}`,
+      },
+      expense: {
+        title: () => 'Витрати',
+        description: (fromDate: Date, toDate: Date) => `З ${formatDate(fromDate)} по ${formatDate(toDate)}`,
+        transactionsCount: (count: number) => `Кількість транзакцій: ${count}`,
+        totalAmount: (amount: number) => `Загальна сума: ${amount}`,
+      },
+    },
+    category: {
+      title: (mcc: number) => `Категорія - ${getCategoryByMcc(mcc) ?? 'Невідома категорія'}`,
+      description: (mcc: number) => `MCC: ${mcc}`,
+      transactionsCount: (count: number) => `Кількість транзакцій: ${count}`,
+      totalAmount: (amount: number) => `Загальна сума: ${amount}`,
+    },
+    transaction: {
+      title: (date: Date) => `Транзакція - ${formatDate(date)}`,
+      description: (mcc: number) => `Категорія: ${getCategoryByMcc(mcc) ?? 'Невідома категорія'}`,
+      amount: (amount: number) => `Сума: ${amount}`,
+      details: (details: string) => `Деталі: ${details}`,
     },
   },
   unknownMcc: () => 'Невідома категорія',

@@ -6,4 +6,7 @@ export interface GraphStore {
   setGraphs: (graphs: Record<TransactionOperation, Graph>) => void
   activeGraph: TransactionOperation
   setActiveGraph: (graph: TransactionOperation) => void
+  previewNodeId: string | undefined
+  setPreviewNodeId: (id: string) => void
+  resetPreviewNodeId: () => void
 }
