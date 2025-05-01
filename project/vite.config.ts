@@ -5,6 +5,17 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  build: {
+    rollupOptions: {
+      input: {
+        app: './main.html',
+      },
+    },
+  },
+  base: '/BSPA/project/',
+  server: {
+    open: '/BSPA/project/main.html',
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

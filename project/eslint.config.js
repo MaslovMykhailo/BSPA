@@ -7,7 +7,7 @@ import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'assets'] },
   {
     extends: [js.configs.recommended, prettierRecommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],

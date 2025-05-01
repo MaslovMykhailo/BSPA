@@ -1,13 +1,13 @@
 import globals from 'globals'
 import pluginJs from '@eslint/js'
-import { globalIgnores } from "@eslint/config-helpers";
+import { globalIgnores } from '@eslint/config-helpers'
 import prettierRecommended from 'eslint-plugin-prettier/recommended'
 import * as pluginCss from 'eslint-plugin-css'
 import pluginHtml from 'eslint-plugin-html'
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  globalIgnores(['project-assets/*']),
+  globalIgnores(['dist/*', 'assets/*']),
   { languageOptions: { globals: globals.browser } },
   { languageOptions: { globals: globals.node } },
   pluginJs.configs.recommended,
