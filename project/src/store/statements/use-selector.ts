@@ -3,10 +3,10 @@ import { useMemo } from 'react'
 import { StatementType } from '@/types/statement'
 import { deserializeStatement } from '@/utils/statements'
 
-import { useTransactionsStore } from './use-store'
+import { useStatementsStore } from './use-store'
 
 export const useStatements = () => {
-  const statements = useTransactionsStore.use.statements()
+  const statements = useStatementsStore.use.statements()
   return useMemo(
     () =>
       Object.values(statements)
@@ -26,12 +26,16 @@ export const useGeneratedStatements = () => {
   return useMemo(() => statements.filter((s) => s.type === StatementType.generated), [statements])
 }
 
-export const useIsActiveStatement = (statementId: string) =>
-  useTransactionsStore.use.activeStatementId() === statementId
+export const useIsActiveStatement = (statementId: string) => useStatementsStore.use.activeStatementId() === statementId
+
+export const useHasActiveStatement = () => {
+  const activeStatementId = useStatementsStore.use.activeStatementId()
+  return useMemo(() => activeStatementId !== undefined, [activeStatementId])
+}
 
 export const useActiveStatement = () => {
-  const activeStatementId = useTransactionsStore.use.activeStatementId()
-  const statements = useTransactionsStore.use.statements()
+  const activeStatementId = useStatementsStore.use.activeStatementId()
+  const statements = useStatementsStore.use.statements()
   return useMemo(
     () => (activeStatementId ? deserializeStatement(statements[activeStatementId]) : undefined),
     [activeStatementId, statements],

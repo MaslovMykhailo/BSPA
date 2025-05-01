@@ -1,6 +1,6 @@
 import { SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
 import { Content } from '@/content'
-import { useIsActiveStatement, useTransactionsStore } from '@/store/statements'
+import { useIsActiveStatement, useStatementsStore } from '@/store/statements'
 import { Statement } from '@/types/statement'
 
 export interface StatementSidebarItemProps {
@@ -11,7 +11,7 @@ export interface StatementSidebarItemProps {
 export function StatementSidebarItem({ statement: { id, toDate, fromDate }, index }: StatementSidebarItemProps) {
   const isActive = useIsActiveStatement(id)
 
-  const { setActiveStatement } = useTransactionsStore()
+  const { setActiveStatement } = useStatementsStore()
   const onSelect = () => setActiveStatement(id)
 
   return (

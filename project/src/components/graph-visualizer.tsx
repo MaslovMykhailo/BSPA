@@ -1,70 +1,31 @@
 import { Environment, TrackballControls } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
-import R3fForceGraph, { GraphMethods, LinkObject } from 'r3f-forcegraph'
+import R3fForceGraph, { GraphData, GraphMethods, LinkObject } from 'r3f-forcegraph'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 
 import { useGraph } from '@/store/graph'
+import { useHasActiveStatement } from '@/store/statements'
 import { Graph, GraphNode } from '@/types/graph'
 import { TransactionOperation } from '@/types/transaction'
 import { createColorGenerator, formatColor, toSimilarColor } from '@/utils/color'
 import { getNodesMinMaxVal, getNodeVal } from '@/utils/graph'
 import { normalizeProportional } from '@/utils/normalize'
-// import * as THREE from 'three'
+import { randomNumber } from '@/utils/random'
 
-// interface R3fForceGraphVisualizerProps {
-//   graphData: any
-//   onNodeClick: (node: any) => void
-// }
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-function R3fForceGraphVisualizer() {
-  const fgRef = useRef<GraphMethods<GraphNode>>(null)
-  useFrame(() => {
-    fgRef.current?.tickFrame()
-    // fgRef.current?.tickFrame()
-  })
-
-  const N = 200
-  const gData = useMemo(
-    () => ({
-      nodes: [...Array(N).keys()].map((i) => ({ id: i, label: i })),
-      links: [...Array(N).keys()]
-        .filter((id) => id)
-        .map((id) => ({
-          source: id,
-          target: Math.round(Math.random() * (id - 1)),
-        })),
-    }),
-    [N],
-  )
-
+export function GraphVisualizer() {
+  const hasActiveStatement = useHasActiveStatement()
   return (
-    <R3fForceGraph
-      ref={fgRef}
-      graphData={gData}
-      nodeColor={() => 'white'}
-      // nodeId={(node) => node.id}
-      // nodeRelSize={10}
-      // nodeVal={() => 1000}
-      // linkWidth={() => 10}
-      // lin
-      // linkDirectionalParticles={() => 4}
-      // linkDirectionalParticleWidth={4}
-      onNodeHover={useCallback((...args: any[]) => console.log('node hover', ...args), [])}
-      onLinkHover={useCallback((...args: any[]) => console.log('link hover', ...args), [])}
-      onNodeClick={useCallback((...args: any[]) => console.log('node click', ...args), [])}
-      onLinkClick={useCallback((...args: any[]) => console.log('link click', ...args), [])}
-      // nodeThreeObject={(node) =>
-      //   new THREE.Mesh(
-      //     new THREE.SphereGeometry(Math.random() * 10),
-      //     new THREE.MeshLambertMaterial({
-      //       color: Math.round(Math.random() * Math.pow(2, 24)),
-      //       transparent: true,
-      //       opacity: 0.8,
-      //     }),
-      //   )
-      // }
-    />
+    <div className="w-full h-[100dvh]">
+      <Canvas flat camera={{ position: [0, 0, 500], far: 10000 }}>
+        <Environment preset="night" />
+        <TrackballControls zoomSpeed={15} rotateSpeed={5} minDistance={200} maxDistance={1200} />
+
+        <ambientLight color={0xcccccc} intensity={Math.PI} />
+        <directionalLight intensity={0.6 * Math.PI} />
+
+        {hasActiveStatement ? <ForceGraphVisualizer /> : <ForceGraphVisualizerPlaceholder />}
+      </Canvas>
+    </div>
   )
 }
 
@@ -87,30 +48,45 @@ function ForceGraphVisualizer() {
       graphData={graphData}
       nodeVal={nodeValAccessor}
       nodeColor={nodeColorAccessor}
-      nodeOpacity={0.8}
+      nodeOpacity={0.9}
       nodeResolution={28}
-      onNodeHover={useCallback((...args: any[]) => console.log('node hover', ...args), [])}
-      onLinkHover={useCallback((...args: any[]) => console.log('link hover', ...args), [])}
-      onNodeClick={useCallback((...args: any[]) => console.log('node click', ...args), [])}
-      onLinkClick={useCallback((...args: any[]) => console.log('link click', ...args), [])}
+      // onNodeHover={useCallback((...args: any[]) => console.log('node hover', ...args), [])}
+      // onLinkHover={useCallback((...args: any[]) => console.log('link hover', ...args), [])}
+      // onNodeClick={useCallback((...args: any[]) => console.log('node click', ...args), [])}
+      // onLinkClick={useCallback((...args: any[]) => console.log('link click', ...args), [])}
     />
   )
 }
 
-export function GraphVisualizer() {
+function ForceGraphVisualizerPlaceholder() {
+  const fgRef = useRef<GraphMethods>(undefined)
+  useFrame(() => fgRef.current?.tickFrame())
+
+  const N = useMemo(() => randomNumber(50, 150), [])
+  const gData = useMemo<GraphData>(
+    () => ({
+      nodes: [...Array(N).keys()].map((i) => ({ id: i, label: i })),
+      links: [...Array(N).keys()]
+        .filter((id) => id)
+        .map((id) => ({
+          source: id,
+          target: Math.round(Math.random() * (id - 1)),
+        })),
+    }),
+    [N],
+  )
+  const nodeVal = useCallback(() => randomNumber(1, 25), [])
+  const nodeColor = useCallback(() => 'white', [])
+
   return (
-    <div className="w-full h-[100dvh]">
-      <Canvas flat camera={{ position: [0, 0, 500], far: 10000 }}>
-        <Environment preset="night" />
-        <TrackballControls zoomSpeed={15} rotateSpeed={5} minDistance={200} maxDistance={2000} />
-
-        <ambientLight color={0xcccccc} intensity={Math.PI} />
-        <directionalLight intensity={0.6 * Math.PI} />
-
-        <ForceGraphVisualizer />
-        {/* <R3fForceGraphVisualizer /> */}
-      </Canvas>
-    </div>
+    <R3fForceGraph
+      ref={fgRef}
+      graphData={gData}
+      nodeVal={nodeVal}
+      nodeColor={nodeColor}
+      nodeOpacity={0.9}
+      nodeResolution={28}
+    />
   )
 }
 

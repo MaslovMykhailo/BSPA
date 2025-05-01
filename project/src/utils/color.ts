@@ -51,8 +51,6 @@ export function toSimilarColor(value: unknown, base: HSLColor) {
   const saturation = Math.min(100, Math.max(0, base.saturation + saturationOffset))
   const lightness = Math.min(100, Math.max(0, base.lightness + lightnessOffset))
 
-  console.log(base, lightness, saturation)
-
   return {
     hue: hue,
     saturation,

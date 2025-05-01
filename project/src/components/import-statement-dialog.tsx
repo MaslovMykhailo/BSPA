@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Content } from '@/content'
-import { useTransactionsStore } from '@/store/statements'
+import { useStatementsStore } from '@/store/statements'
 import { Transaction } from '@/types/transaction'
 import { TransactionOperation } from '@/types/transaction'
 import { formatDate } from '@/utils/date'
@@ -23,7 +23,7 @@ export function ImportStatementDialog() {
   const [error, setError] = useState(false)
   const [transactions, setTransactions] = useState<Transaction[]>()
 
-  const { importStatement } = useTransactionsStore()
+  const { importStatement } = useStatementsStore()
 
   const onImportError = () => {
     setOpen(true)

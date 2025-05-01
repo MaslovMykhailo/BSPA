@@ -8,13 +8,14 @@ import { getTransactionsFromDate, getTransactionsToDate } from '@/utils/transact
 import { createSelectors } from '../utils'
 import { StatementsStore } from './store'
 
-const useTransactionsStoreBase = create<StatementsStore>()(
+const useStatementsStoreBase = create<StatementsStore>()(
   devtools(
     persist(
       (set) => ({
         activeStatementId: undefined,
         statements: {},
         setActiveStatement: (id) => set(() => ({ activeStatementId: id })),
+        resetActiveStatement: () => set(() => ({ activeStatementId: undefined })),
         importStatement: (transactions) => {
           const id = crypto.randomUUID()
           set((state) => ({
@@ -55,4 +56,4 @@ const useTransactionsStoreBase = create<StatementsStore>()(
   ),
 )
 
-export const useTransactionsStore = createSelectors(useTransactionsStoreBase)
+export const useStatementsStore = createSelectors(useStatementsStoreBase)

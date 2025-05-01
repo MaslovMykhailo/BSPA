@@ -6,6 +6,7 @@ export interface StatementsStore {
   activeStatementId: EntityId | undefined
   statements: Record<EntityId, SerializedStatement>
   setActiveStatement: (id: EntityId) => void
+  resetActiveStatement: () => void
   importStatement: (transactions: Transaction[]) => EntityId
   generateStatement: () => EntityId
   removeStatement: (id: EntityId) => void

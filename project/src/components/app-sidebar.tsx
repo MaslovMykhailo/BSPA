@@ -1,6 +1,8 @@
+import { Button } from '@/components/ui/button'
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -9,13 +11,15 @@ import {
   SidebarSeparator,
 } from '@/components/ui/sidebar'
 import { Content } from '@/content'
-import { useGeneratedStatements, useImportedStatements } from '@/store/statements'
+import { useGeneratedStatements, useImportedStatements, useStatementsStore } from '@/store/statements'
 
 import { GenerateStatementButton } from './generate-statement-button'
 import { ImportStatementDialog } from './import-statement-dialog'
 import { StatementSidebarItem } from './statement-sidebar-item'
 
 export function AppSidebar() {
+  const { resetActiveStatement } = useStatementsStore()
+
   const importedStatements = useImportedStatements()
   const generatedStatements = useGeneratedStatements()
 
@@ -51,6 +55,9 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <Button onClick={resetActiveStatement}>{Content.sidebar.resetSelectionButton.text()}</Button>
+      </SidebarFooter>
     </Sidebar>
   )
 }

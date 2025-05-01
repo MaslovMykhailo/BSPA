@@ -16,6 +16,9 @@ export const Content = {
       title: (index: number) => `Транзакції #${index}`,
       subtitle: (fromDate: Date, toDate: Date) => `З ${formatDate(fromDate)} по ${formatDate(toDate)}`,
     },
+    resetSelectionButton: {
+      text: () => 'Cкинути вибір',
+    },
   },
   visualizationSwitch: {
     tabs: {
