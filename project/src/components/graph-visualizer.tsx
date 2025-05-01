@@ -5,6 +5,8 @@ import { useCallback, useEffect, useMemo, useRef } from 'react'
 
 import { useGraph } from '@/store/graph'
 import { Graph, GraphNode } from '@/types/graph'
+import { TransactionOperation } from '@/types/transaction'
+import { createColorGenerator, formatColor, toSimilarColor } from '@/utils/color'
 import { getNodesMinMaxVal, getNodeVal } from '@/utils/graph'
 import { normalizeProportional } from '@/utils/normalize'
 // import * as THREE from 'three'
@@ -83,8 +85,10 @@ function ForceGraphVisualizer() {
     <R3fForceGraph
       ref={fgRef}
       graphData={graphData}
-      nodeColor={() => 'white'}
       nodeVal={nodeValAccessor}
+      nodeColor={nodeColorAccessor}
+      nodeOpacity={0.8}
+      nodeResolution={28}
       onNodeHover={useCallback((...args: any[]) => console.log('node hover', ...args), [])}
       onLinkHover={useCallback((...args: any[]) => console.log('link hover', ...args), [])}
       onNodeClick={useCallback((...args: any[]) => console.log('node click', ...args), [])}
@@ -115,6 +119,37 @@ const useNodeValAccessor = (graph: Graph) => useMemo(() => createNodeValAccessor
 const createNodeValAccessor = (graph: Graph) => {
   const [min, max] = getNodesMinMaxVal(Object.values(graph.nodes))
   return (node: GraphNode) => normalizeProportional(getNodeVal(node), min, max)
+}
+
+const operationColors = {
+  [TransactionOperation.income]: {
+    hue: 160,
+    saturation: 80,
+    lightness: 45,
+  },
+  [TransactionOperation.expense]: {
+    hue: 10,
+    saturation: 85,
+    lightness: 50,
+  },
+}
+
+const operationToColor = (operation: TransactionOperation) => operationColors[operation]
+
+const mccToColor = createColorGenerator({ saturation: 120, lightness: 50 })
+
+const nodeColorAccessor = (node: GraphNode) => {
+  switch (node.type) {
+    case 'statement':
+      return formatColor(operationToColor(node.statement.operation))
+    case 'transaction-category':
+      return formatColor(mccToColor(node.category.mcc))
+    case 'transaction':
+      return formatColor(toSimilarColor(node.id, mccToColor(node.transaction.mcc)))
+
+    default:
+      return 'white'
+  }
 }
 
 const createLinkDistanceAccessor = (graph: Graph) => {

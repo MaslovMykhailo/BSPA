@@ -1,4 +1,5 @@
 import { EntityId } from './entity'
+import { TransactionOperation } from './transaction'
 
 export interface BaseGraphNode {
   id: EntityId
@@ -8,6 +9,7 @@ export interface StatementNode extends BaseGraphNode {
   type: 'statement'
   statement: {
     value: number
+    operation: TransactionOperation
   }
 }
 
@@ -23,6 +25,7 @@ export interface TransactionNode extends BaseGraphNode {
   type: 'transaction'
   transaction: {
     value: number
+    mcc: number
   }
 }
 
