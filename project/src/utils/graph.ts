@@ -12,8 +12,7 @@ const createStatementNode = (id: EntityId, statement: Statement, transactions: T
   id,
   type: 'statement',
   statement: {
-    ...statement,
-    transactions,
+    value: transactions.reduce((total, transaction) => total + transaction.amount, 0),
   },
 })
 
@@ -22,14 +21,16 @@ const createTransactionCategoryNode = (id: EntityId, mcc: number, transactions: 
   type: 'transaction-category',
   category: {
     mcc,
-    transactions,
+    value: transactions.reduce((total, transaction) => total + transaction.amount, 0),
   },
 })
 
 const createTransactionNode = (id: EntityId, transaction: Transaction): GraphNode => ({
   id,
   type: 'transaction',
-  transaction,
+  transaction: {
+    value: transaction.amount,
+  },
 })
 
 export const statementToGraphs = (statement: Statement) => {
@@ -69,8 +70,6 @@ export const statementToGraphs = (statement: Statement) => {
         return categories
       }, {})
 
-      console.log(categorizedTransactions)
-
       Object.entries(categorizedTransactions).forEach(([mcc, categoryTransactions]) => {
         const categoryId = crypto.randomUUID()
         addNode(categoryId, createTransactionCategoryNode(categoryId, Number(mcc), categoryTransactions))
@@ -90,4 +89,22 @@ export const statementToGraphs = (statement: Statement) => {
       [TransactionOperation.expense]: emptyGraph(),
     },
   )
+}
+
+export const getNodeVal = (node: GraphNode) => {
+  switch (node.type) {
+    case 'statement':
+      return node.statement.value
+    case 'transaction-category':
+      return node.category.value
+    case 'transaction':
+      return node.transaction.value
+    default:
+      return 1
+  }
+}
+
+export const getNodesMinMaxVal = (nodes: GraphNode[]) => {
+  const values = nodes.map(getNodeVal)
+  return [Math.min(...values), Math.max(...values)]
 }

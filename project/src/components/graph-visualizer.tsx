@@ -1,10 +1,12 @@
 import { Environment, TrackballControls } from '@react-three/drei'
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import R3fForceGraph, { GraphMethods, LinkObject, NodeObject } from 'r3f-forcegraph'
+import { Canvas, useFrame } from '@react-three/fiber'
+import R3fForceGraph, { GraphMethods, LinkObject } from 'r3f-forcegraph'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 
-import { useGraph, useGraphData } from '@/store/graph'
-import { GraphNode } from '@/types/graph'
+import { useGraph } from '@/store/graph'
+import { Graph, GraphNode } from '@/types/graph'
+import { getNodesMinMaxVal, getNodeVal } from '@/utils/graph'
+import { normalizeProportional } from '@/utils/normalize'
 // import * as THREE from 'three'
 
 // interface R3fForceGraphVisualizerProps {
@@ -64,43 +66,29 @@ function R3fForceGraphVisualizer() {
   )
 }
 
-function Visualizer() {
+function ForceGraphVisualizer() {
   const fgRef = useRef<GraphMethods<GraphNode>>(undefined)
   useFrame(() => fgRef.current?.tickFrame())
 
-  const { graphData } = useGraph()
-  console.log('graphData', graphData)
+  const { graph, graphData } = useGraph()
 
   useEffect(() => {
+    fgRef.current?.d3Force('link')?.distance(createLinkDistanceAccessor(graph))
     fgRef.current?.tickFrame()
-  }, [graphData])
+  }, [graph])
+
+  const nodeValAccessor = useNodeValAccessor(graph)
 
   return (
     <R3fForceGraph
       ref={fgRef}
       graphData={graphData}
       nodeColor={() => 'white'}
-      // nodeId={(node) => node.id}
-      // nodeRelSize={10}
-      // nodeVal={() => 1000}
-      // linkWidth={() => 10}
-      // lin
-      // linkDirectionalParticles={() => 4}
-      // linkDirectionalParticleWidth={4}
+      nodeVal={nodeValAccessor}
       onNodeHover={useCallback((...args: any[]) => console.log('node hover', ...args), [])}
       onLinkHover={useCallback((...args: any[]) => console.log('link hover', ...args), [])}
       onNodeClick={useCallback((...args: any[]) => console.log('node click', ...args), [])}
       onLinkClick={useCallback((...args: any[]) => console.log('link click', ...args), [])}
-      // nodeThreeObject={(node) =>
-      //   new THREE.Mesh(
-      //     new THREE.SphereGeometry(Math.random() * 10),
-      //     new THREE.MeshLambertMaterial({
-      //       color: Math.round(Math.random() * Math.pow(2, 24)),
-      //       transparent: true,
-      //       opacity: 0.8,
-      //     }),
-      //   )
-      // }
     />
   )
 }
@@ -108,26 +96,46 @@ function Visualizer() {
 export function GraphVisualizer() {
   return (
     <div className="w-full h-[100dvh]">
-      <Canvas flat camera={{ position: [0, 0, 1000], far: 8000 }}>
+      <Canvas flat camera={{ position: [0, 0, 500], far: 10000 }}>
         <Environment preset="night" />
-        <TrackballControls zoomSpeed={15} rotateSpeed={5} />
-        {/* <color attach="background" args={[0, 0, 0.01]} /> */}
+        <TrackballControls zoomSpeed={15} rotateSpeed={5} minDistance={200} maxDistance={2000} />
+
         <ambientLight color={0xcccccc} intensity={Math.PI} />
         <directionalLight intensity={0.6 * Math.PI} />
 
-        {/* <OrbitControls
-          minDistance={3}
-          maxDistance={10}
-          enableZoom={true}
-          enablePan={false}
-          autoRotate={true}
-          autoRotateSpeed={1}
-        /> */}
-
+        <ForceGraphVisualizer />
         {/* <R3fForceGraphVisualizer /> */}
-
-        <Visualizer />
       </Canvas>
     </div>
   )
+}
+
+const useNodeValAccessor = (graph: Graph) => useMemo(() => createNodeValAccessor(graph), [graph])
+
+const createNodeValAccessor = (graph: Graph) => {
+  const [min, max] = getNodesMinMaxVal(Object.values(graph.nodes))
+  return (node: GraphNode) => normalizeProportional(getNodeVal(node), min, max)
+}
+
+const createLinkDistanceAccessor = (graph: Graph) => {
+  const [minCategory, maxCategory] = getNodesMinMaxVal(
+    Object.values(graph.nodes).filter((node) => node.type === 'transaction-category'),
+  )
+
+  return (link: LinkObject<GraphNode>) => {
+    if (!link.source || typeof link.source !== 'object' || !link.target || typeof link.target !== 'object') {
+      return 1
+    }
+
+    const sourceVal = getNodeVal(link.source)
+    const targetVal = getNodeVal(link.target)
+
+    return normalizeProportional(
+      sourceVal + targetVal,
+      minCategory * 2,
+      maxCategory * 2,
+      5 * (link.target.type === 'transaction' ? 5 : 1),
+      100,
+    )
+  }
 }

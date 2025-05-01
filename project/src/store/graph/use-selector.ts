@@ -18,8 +18,8 @@ export const useGraphData = () => {
       nodes: Object.values(graph.nodes),
       links: Object.entries(graph.links).flatMap(([source, targets]) =>
         targets.map((target) => ({
-          source,
-          target,
+          source: graph.nodes[source],
+          target: graph.nodes[target],
         })),
       ),
     }),

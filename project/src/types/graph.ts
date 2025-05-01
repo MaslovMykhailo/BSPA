@@ -1,6 +1,4 @@
 import { EntityId } from './entity'
-import { Statement } from './statement'
-import { Transaction } from './transaction'
 
 export interface BaseGraphNode {
   id: EntityId
@@ -8,17 +6,24 @@ export interface BaseGraphNode {
 
 export interface StatementNode extends BaseGraphNode {
   type: 'statement'
-  statement: Statement
+  statement: {
+    value: number
+  }
 }
 
 export interface TransactionCategoryNode extends BaseGraphNode {
   type: 'transaction-category'
-  category: TransactionCategory
+  category: {
+    mcc: number
+    value: number
+  }
 }
 
 export interface TransactionNode extends BaseGraphNode {
   type: 'transaction'
-  transaction: Transaction
+  transaction: {
+    value: number
+  }
 }
 
 export type GraphNode = StatementNode | TransactionCategoryNode | TransactionNode
@@ -26,9 +31,4 @@ export type GraphNode = StatementNode | TransactionCategoryNode | TransactionNod
 export interface Graph {
   nodes: Record<EntityId, GraphNode>
   links: Record<EntityId, EntityId[]>
-}
-
-export interface TransactionCategory {
-  mcc: number
-  transactions: Transaction[]
 }

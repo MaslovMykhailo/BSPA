@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { statementToGraphs } from '@/utils/graph'
 
 import { useActiveStatement } from '../statements'
-import { useGraphData } from './use-selector'
+import { useActiveGraph, useGraphData } from './use-selector'
 import { useGraphStore } from './use-store'
 
 export const useGraph = () => {
@@ -16,7 +16,8 @@ export const useGraph = () => {
     }
   }, [statement])
 
+  const graph = useActiveGraph()
   const graphData = useGraphData()
 
-  return { graphData }
+  return { graph, graphData }
 }

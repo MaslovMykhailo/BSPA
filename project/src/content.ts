@@ -17,6 +17,12 @@ export const Content = {
       subtitle: (fromDate: Date, toDate: Date) => `З ${formatDate(fromDate)} по ${formatDate(toDate)}`,
     },
   },
+  visualizationSwitch: {
+    tabs: {
+      income: () => 'Надходження',
+      expense: () => 'Витрати',
+    },
+  },
   generateTransactionsButton: {
     text: () => 'Згенерувати транзакції',
   },
