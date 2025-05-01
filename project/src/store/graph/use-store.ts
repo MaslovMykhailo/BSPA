@@ -14,6 +14,13 @@ export const useGraphStoreBase = create<GraphStore>()(
       [TransactionOperation.expense]: emptyGraph(),
     },
     setGraphs: (graphs) => set(() => ({ graphs })),
+    resetGraphs: () =>
+      set(() => ({
+        graphs: {
+          [TransactionOperation.income]: emptyGraph(),
+          [TransactionOperation.expense]: emptyGraph(),
+        },
+      })),
 
     activeGraph: TransactionOperation.expense,
     setActiveGraph: (operation) => set(() => ({ activeGraph: operation })),

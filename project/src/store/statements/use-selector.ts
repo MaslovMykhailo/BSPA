@@ -11,6 +11,7 @@ export const useStatements = () => {
     () =>
       Object.values(statements)
         .map(deserializeStatement)
+        .filter(Boolean)
         .sort((s1, s2) => s1.addedDate.getTime() - s2.addedDate.getTime()),
     [statements],
   )
@@ -37,7 +38,10 @@ export const useActiveStatement = () => {
   const activeStatementId = useStatementsStore.use.activeStatementId()
   const statements = useStatementsStore.use.statements()
   return useMemo(
-    () => (activeStatementId ? deserializeStatement(statements[activeStatementId]) : undefined),
+    () =>
+      activeStatementId && statements[activeStatementId]
+        ? deserializeStatement(statements[activeStatementId])
+        : undefined,
     [activeStatementId, statements],
   )
 }

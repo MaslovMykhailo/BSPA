@@ -9,11 +9,13 @@ import { useGraphStore } from './use-store'
 
 export const useGraph = () => {
   const statement = useActiveStatement()
-  const { setGraphs, setPreviewNodeId, resetPreviewNodeId } = useGraphStore()
+  const { setGraphs, resetGraphs, setPreviewNodeId, resetPreviewNodeId } = useGraphStore()
 
   useEffect(() => {
     if (statement) {
       setGraphs(statementToGraphs(statement))
+    } else {
+      resetGraphs()
     }
   }, [statement])
 

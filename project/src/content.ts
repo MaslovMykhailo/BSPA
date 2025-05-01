@@ -15,8 +15,12 @@ export const Content = {
       },
     },
     statementItem: {
-      title: (index: number) => `Транзакції #${index}`,
-      subtitle: (fromDate: Date, toDate: Date) => `З ${formatDate(fromDate)} по ${formatDate(toDate)}`,
+      title: (fromDate: Date, toDate: Date) => `З ${formatDate(fromDate)} по ${formatDate(toDate)}`,
+      subtitle: (transactionsCount: number) => `Кількість транзакцій: ${transactionsCount}`,
+      actions: {
+        show: () => 'Показати',
+        delete: () => 'Видалити',
+      },
     },
     resetSelectionButton: {
       text: () => 'Cкинути вибір',

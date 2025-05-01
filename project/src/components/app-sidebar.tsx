@@ -33,8 +33,8 @@ export function AppSidebar() {
           <SidebarGroupLabel>{Content.sidebar.group.imported.title()}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {importedStatements.map((statement, index) => (
-                <StatementSidebarItem key={statement.id} statement={statement} index={index} />
+              {importedStatements.map((statement) => (
+                <StatementSidebarItem key={statement.id} statement={statement} />
               ))}
               <ImportStatementDialog />
             </SidebarMenu>
@@ -47,8 +47,8 @@ export function AppSidebar() {
           <SidebarGroupLabel>{Content.sidebar.group.generated.title()}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {generatedStatements.map((statement, index) => (
-                <StatementSidebarItem key={statement.id} statement={statement} index={index} />
+              {generatedStatements.map((statement) => (
+                <StatementSidebarItem key={statement.id} statement={statement} />
               ))}
               <GenerateStatementButton />
             </SidebarMenu>

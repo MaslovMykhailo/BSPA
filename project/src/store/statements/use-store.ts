@@ -44,9 +44,9 @@ const useStatementsStoreBase = create<StatementsStore>()(
         },
         removeStatement: (id) =>
           set((state) => {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const { [id]: _, ...rest } = state.statements
-            return { statements: rest }
+            const { [id]: statement, ...rest } = state.statements
+            const activeStatementId = state.activeStatementId === statement.id ? undefined : state.activeStatementId
+            return { statements: rest, activeStatementId }
           }),
       }),
       {
